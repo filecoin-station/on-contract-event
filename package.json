@@ -1,6 +1,6 @@
 {
   "name": "on-contract-event",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": "filecoin-station/on-contract-event",
   "license": "(Apache-2.0 AND MIT)",
   "type": "module",
