@@ -5,9 +5,11 @@
   "license": "(Apache-2.0 AND MIT)",
   "type": "module",
   "scripts": {
+    "release": "np",
     "test": "standard"
   },
   "devDependencies": {
+    "np": "^9.2.0",
     "standard": "^17.1.0"
   },
   "dependencies": {
