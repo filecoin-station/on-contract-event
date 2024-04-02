@@ -40,7 +40,7 @@ const makeRequest = async ({
   }
   const body = await res.json()
   if (body.error) {
-    throw new Error(`Cannot fetch event log. JSON RPC error: ${body.error}`)
+    throw new Error(`Cannot fetch event log. JSON RPC error: ${JSON.stringify(body.error)}`)
   }
 
   const events = body.result.map(log => contract.interface.parseLog(log))
