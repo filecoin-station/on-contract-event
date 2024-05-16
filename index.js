@@ -12,7 +12,8 @@ const makeRequest = async ({
   address,
   rpcUrl,
   rpcHeaders,
-  fromBlock
+  fromBlock,
+  signal
 }) => {
   const req = {
     jsonrpc: '2.0',
@@ -31,7 +32,8 @@ const makeRequest = async ({
       ...rpcHeaders,
       'content-type': 'application/json'
     },
-    body: JSON.stringify(req)
+    body: JSON.stringify(req),
+    signal
   })
   if (!res.ok) {
     throw new Error(
@@ -58,7 +60,8 @@ export async function * onContractEvent ({
   contract,
   provider,
   rpcUrl,
-  rpcHeaders
+  rpcHeaders,
+  signal
 }) {
   const address = await contract.getAddress()
   let lastBlock = await provider.getBlockNumber()
@@ -76,9 +79,13 @@ export async function * onContractEvent ({
         address,
         rpcUrl,
         rpcHeaders,
-        fromBlock: lastBlock
+        fromBlock: lastBlock,
+        signal
       }))
     } catch (err) {
+      if (err.name === 'AbortError') {
+        throw err
+      }
       console.error(err)
     }
 
@@ -95,7 +102,11 @@ export async function * onContractEvent ({
     const iterationEnd = new Date()
     const iterationDuration = iterationEnd - iterationStart
     if (iterationDuration < MIN_POLL_INTERVAL) {
-      await timers.setTimeout(MIN_POLL_INTERVAL - iterationDuration)
+      await timers.setTimeout(
+        MIN_POLL_INTERVAL - iterationDuration,
+        null,
+        { signal }
+      )
     }
   }
 }

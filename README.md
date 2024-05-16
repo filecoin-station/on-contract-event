@@ -30,3 +30,4 @@ Options:
 - `provider`: Ethers provider
 - `rpcUrl`: JSON-RPC endpoint URL
 - `rpcHeader`: JSON-RPC headers object
+- `signal`: Optional `AbortSignal`
